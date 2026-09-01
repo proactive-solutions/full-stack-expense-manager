@@ -10,5 +10,11 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
     css: true,
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: './coverage',
+      reporter: ['text', 'html', 'lcov'],
+      exclude: ['src/test/**', '**/*.d.ts', 'dist/**', 'output/**', '.spago/**'],
+    },
   },
 })
