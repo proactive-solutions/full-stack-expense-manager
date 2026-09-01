@@ -50,6 +50,10 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+coverage/
+*.lcov
+lcov.info
+.nyc_output/
 
 # Translations
 *.mo
