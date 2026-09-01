@@ -25,8 +25,9 @@ describe('Dashboard', () => {
     vi.restoreAllMocks()
   })
 
-  it('shows loading initially', () => {
-    global.fetch = mockFetchSuccess() as any
+  it('shows loading initially', async () => {
+    // use pending promise so state updates do not fire during this sync assertion
+    global.fetch = vi.fn(() => new Promise(() => {})) as any
     render(<MemoryRouter><Dashboard /></MemoryRouter>)
     expect(screen.getByText('Loading...')).toBeInTheDocument()
   })

@@ -64,11 +64,14 @@ jobs:
       - name: Lint (oxlint)
         run: npm run lint || true
 
-      - name: Run Vitest (React)
-        run: npm run test:run
+      - name: Build PureScript (output for tests)
+        run: npx spago build
 
       - name: Run PureScript spec
         run: npx spago test
+
+      - name: Run Vitest (React)
+        run: npm run test:run
 
       - name: Build
         run: npm run build
