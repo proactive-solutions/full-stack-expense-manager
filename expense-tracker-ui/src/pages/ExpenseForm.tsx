@@ -85,7 +85,7 @@ export default function ExpenseForm() {
 
       {error && <div className="error-message">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="expense-form">
+      <form onSubmit={handleSubmit} className="expense-form" noValidate>
         <div className="form-group">
           <label htmlFor="title">Title *</label>
           <input

@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: expense_tracker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: expense_tracker/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint (ruff)
+        run: |
+          ruff check app tests || true
+
+      - name: Run tests
+        run: |
+          pytest -v
+
+  frontend:
+    name: Frontend (vitest + spago + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: expense-tracker-ui
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: expense-tracker-ui/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (oxlint)
+        run: npm run lint || true
+
+      - name: Build PureScript (output for tests)
+        run: npx spago build
+
+      - name: Run PureScript spec
+        run: npx spago test
+
+      - name: Run Vitest (React)
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build

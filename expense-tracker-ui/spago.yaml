@@ -7,6 +7,7 @@ package:
     - argonaut-codecs
     - argonaut-core
     - arrays
+    - console
     - effect
     - either
     - enums
@@ -14,8 +15,13 @@ package:
     - foldable-traversable
     - maybe
     - prelude
+    - spec
     - tuples
     - web-html
+  test:
+    main: Test.Main
+    dependencies:
+      - spec
 
 workspace:
   packageSet:

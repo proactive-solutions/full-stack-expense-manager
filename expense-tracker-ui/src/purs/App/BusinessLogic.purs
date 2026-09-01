@@ -27,8 +27,8 @@ formatCurrency amount = "$" <> showFixed amount
   showFixed :: Number -> String
   showFixed n = 
     let intPart = floor n
-        fracPart = round ((n - toNumber intPart) * 100.0)
-    in show intPart <> "." <> if fracPart < 10.0 then "0" <> show fracPart else show fracPart
+        fracPart = floor (round ((n - toNumber intPart) * 100.0))
+    in show intPart <> "." <> if fracPart < 10 then "0" <> show fracPart else show fracPart
 
 formatDate :: String -> String
 formatDate dateStr = 
